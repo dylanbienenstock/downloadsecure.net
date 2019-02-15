@@ -1,0 +1,28 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <title>File not found</title>
+
+    <style>
+        p {
+            font-family: monospace;
+        }
+    </style>
+
+    <script>
+        window.onload = function() {
+            document.getElementById("url").innerText =
+                location.pathname + location.search + location.hash;
+        }
+    </script>
+</head>
+<body>
+    <h1>Not Found</h1>
+
+    <p>
+        The requested URL <span id="url"></span> could not be found. (Error: 404) <br>
+        Please contact the network administrator to resolve this issue. <br> <br>
+        Copyright © DownloadSecure LLC 2007 - All rights reserved.
+    </p>
+</body>
+</html>
