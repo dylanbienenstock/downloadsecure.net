@@ -57,7 +57,8 @@ function createRequestObject(req) {
 }
 
 function createFilename(req) {
-    let filename = `${ req.url || "root" }-${ getFormattedDate() }.json`;
+    let prefix = req.url.trim().length > 0 ? req.url : "root";
+    let filename = `req-${ prefix }-${ getFormattedDate() }.json`;
     let withPath = path.join(__dirname, requestPath, filenamify(filename));
 
     return withPath;
