@@ -2,14 +2,23 @@ const express = require("express");
 const app = express();
 const fs = require("fs");
 const path = require("path");
-const filenamify = require("filenamify");
 const bodyparser = require("body-parser");
 
+const downloads = require("./downloads");
+const filesPath = "downloads";
 const requestPath = "requests";
 const responsePath = "index.html";
 
 app.use(bodyparser.json());
 app.set("trust proxy", true);
+
+for (let url in downloads) {
+    let filename = path.join(__dirname, filesPath, downloads[url]);
+
+    app.get(url, (req, res) => {
+        res.download(filename);
+    });
+}
 
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, responsePath));
@@ -57,9 +66,8 @@ function createRequestObject(req) {
 }
 
 function createFilename(req) {
-    let prefix = req.url.trim().length > 0 ? req.url : "root";
-    let filename = `req-${ prefix }-${ getFormattedDate() }.json`;
-    let withPath = path.join(__dirname, requestPath, filenamify(filename));
+    let filename = `req-${ getFormattedDate() }.json`;
+    let withPath = path.join(__dirname, requestPath, filename);
 
     return withPath;
 }
@@ -79,7 +87,7 @@ function getFormattedDate() {
     min = (min < 10 ? "0" : "") + min;
     sec = (sec < 10 ? "0" : "") + sec;
 
-    let str = `${ date.getFullYear() }-${ month }-${ day }-${ hour }-${ min }-${ sec }`;
+    let str = `y${ date.getFullYear() }-mo${ month }-d${ day }-h${ hour }-mi${ min }-s${ sec }`;
 
     return str;
 }
