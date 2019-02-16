@@ -17,6 +17,8 @@ for (let url in downloads) {
 
     app.get(url, (req, res) => {
         res.download(filename);
+
+        saveRequest(req);
     });
 }
 
